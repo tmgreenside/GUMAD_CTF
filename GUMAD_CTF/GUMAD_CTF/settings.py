@@ -54,7 +54,7 @@ ROOT_URLCONF = 'GUMAD_CTF.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./CTF/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
