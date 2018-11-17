@@ -3,7 +3,11 @@
   <title>CTF | GU MAD</title>
 </head>
 <body style="background-color:gray">
-    <div style="width=400px; background-color:white">
+    {% load static %}
+    <div id="top_bar" style="background-color:black; height:100px">
+        <img src="{% static 'CTF/MAD_logo.png' %}" height="100px"/>
+    </div>
+    <div style="width=400px; background-color:white; padding:10px">
     {% block content %}
 
     {% endblock %}
