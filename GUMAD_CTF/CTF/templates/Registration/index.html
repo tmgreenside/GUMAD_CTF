@@ -1,0 +1,52 @@
+{% extends 'CTF/base.html' %}
+
+{% block content %}
+
+<h1>Rules and Regulations</h1>
+
+<h3>General</h3>
+<ul>
+    <li>Location: Gonzaga University School of Engineering and Applied Science.</li>
+    <!-- <li>Food will hopefully be provided?</li> -->
+    <li>Teams of 1-4. If there are two freshman on the team, then a team is allowed
+        5 or 6. Freshman are highly encouraged because we want them to come and learn!</li>
+    <li>Slack channel for teams to communicate.</li>
+    <li>Time estimate: 6 hours. We promise this will be a lot of fun, so worth the
+        time!</li>
+    <li>There are two types of challenges. Read on!</li>
+</ul>
+
+<h3>Attack/Defense:</h3>
+<ul>
+    <li>This will consist of defending your own box, while trying to exploit others.</li>
+    <li>Will need to keep your service up and running! Points are taken away for down time.</li>
+    <li>Flags will rotate on 'ticks', likely to be an hour.</li>
+    <li>4 challenges total: 1 flag released per hour.</li>
+</ul>
+
+<ul>
+    <li>No external, automated tools besides nmap (I'm talking about using Kali and
+    other things). Using google for answers is completely fine though.</li>
+    <li>No DOS attacks on machines.</li>
+    <li>Do not attack the scoreboard site.</li>
+</ul>
+
+<h3>Wargame and Jeopardy</h3>
+<h5>Scoring</h5>
+<ul>
+    <li>Solving a wargame will give x number of points, depending on the difficulty and effort needed
+        to solve the challenge. More points given to the first team that solves a challenge (1.5x).</li>
+
+For the wargames, sending in write ups of mitigation reports will be extra points, if correct.
+Attacking another teams box will give the flag for the challenge.
+Teams will be subtracted points if their service is down/does not work.
+Defensively, if a malicious payload is seen, then report this to the officials for extra points. Should probably be some sort of cap on this.
+Harden the system, not about hardening the flag.
+Some of the wargames will be very weird to judge. So, people (known as judges) will manually have to look at them. This includes the XSS challenge, "I'm in" moment mitgiations and more.
+Hints are allowed by the people around. However, points will be taken off for this. Want the opportunity for people to have fun and solve challenges though!
+Atmosphere
+
+Should be a fun and learning atomsphere.
+People should be helpful.
+
+{% endblock %}
