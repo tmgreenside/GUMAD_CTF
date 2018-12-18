@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 
-from .forms import TeamRegistration
+from .forms import *
+import CTF.models as models
 
 # Create your views here.
 def index(request):
@@ -15,7 +16,7 @@ def registration(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = SignupForm(request.POST)
+        form = InstitutionForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -25,6 +26,26 @@ def registration(request):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = TeamRegistration()
+        formTeam = TeamForm()
+        participantForms = [ParticipantForm() for i in range(5)]
 
-    return render(request, 'Registration/registrationForm.html', {'form': form})
+    return render(request, 'Registration/registrationForm.html', {'formTeam': formTeam})
+
+# TODO
+def registerInstitution(request):
+    if request.method == 'POST':
+        form = TeamForm(request.POST)
+        if form.is_valid():
+            # process form data
+            name = form.cleaned_data['name']
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            country = form.cleaned_data['country']
+
+            # TODO: save object in database
+
+            return HttpResponseRedirect('/Registration/Register')
+    else:
+        formInstitution = InstitutionForm()
+
+    return render(request, 'Registration/simpleForm.html', {'form': formInstitution})

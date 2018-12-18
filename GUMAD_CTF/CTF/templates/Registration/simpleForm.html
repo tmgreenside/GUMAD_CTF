@@ -5,9 +5,7 @@
 <form action="/Registration/submit-registration/" method="post">
     {% csrf_token %}
 
-    <h5>Team Registration</h5>
-    <p>Note: If you don't see your team, you may add it <a href="">here.</a></p>
-    {{ formTeam }}
+    {{ form }}
     <input type="submit" value="Register">
 </form>
 
