@@ -10,11 +10,12 @@ def index(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def register(request):
+def registration(request):
+    # return render(request, 'Registration/registrationForm.html')
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = TeamRegistration(request.POST)
+        form = SignupForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required

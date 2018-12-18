@@ -1,16 +1,21 @@
 from django.db import models
 
-STATE_CHOICES = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY',
+states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY',
             'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH',
             'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
 
-CLASS_STANDINGS = ["Freshman", "Sophomore", "Junior", "Senior"]
+STATE_CHOICES = []
+for s in states:
+    STATE_CHOICES.append((s,s))
+
+CLASS_STANDINGS = [("Freshman","Freshman"), ("Sophomore","Sophomore"), ("Junior","Junior"), ("Senior","Senior")]
+LEAGUES = [("Buffer Overflow","Buffer Overflow"), ("Ret Lib C","Ret Lib C")]
 
 # Create your models here.
 class Institution(models.Model):
     name = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
-    state_province = models.CharField(max_length=2, choices=STATE_CHOICES, blank=True, null=True)
+    state = models.CharField(max_length=2, choices=STATE_CHOICES, blank=True, null=True)
     country = models.CharField(max_length=255)
 
     def __str__(self):
@@ -19,6 +24,7 @@ class Institution(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=250)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    league = models.CharField(max_length=20, choices=LEAGUES, blank=True, null=True)
 
     def __str__(self):
         return self.name
