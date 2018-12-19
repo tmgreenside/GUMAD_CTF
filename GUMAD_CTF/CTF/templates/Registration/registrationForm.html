@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<form action="/Registration/submit-registration/" method="post">
+<form action="/Registration/Register" method="post">
     {% csrf_token %}
 
     <h5>Team Registration</h5>
-    <p>Note: If you don't see your team, you may add it <a href="">here.</a></p>
+    <p>Note: If you don't see your team, you may add it <a href="/Registration/RegisterInstitution">here.</a></p>
     {{ formTeam }}
     <input type="submit" value="Register">
 </form>

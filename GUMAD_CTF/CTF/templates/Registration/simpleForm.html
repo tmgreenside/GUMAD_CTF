@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="/Registration/submit-registration/" method="post">
+<form action="{{ postURL }}" method="post">
     {% csrf_token %}
 
     {{ form }}

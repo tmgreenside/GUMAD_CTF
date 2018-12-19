@@ -34,7 +34,9 @@ def registration(request):
 # TODO
 def registerInstitution(request):
     if request.method == 'POST':
-        form = TeamForm(request.POST)
+        form = InstitutionForm(request.POST)
+        postURL = "/Registration/RegisterInstitution"
+
         if form.is_valid():
             # process form data
             name = form.cleaned_data['name']
@@ -42,10 +44,12 @@ def registerInstitution(request):
             state = form.cleaned_data['state']
             country = form.cleaned_data['country']
 
-            # TODO: save object in database
+            submission = models.Institution(name=name,city=city,state=state,country=country)
+            submission.save()
 
             return HttpResponseRedirect('/Registration/Register')
     else:
-        formInstitution = InstitutionForm()
+        form = InstitutionForm()
+        postURL = "/Registration/RegisterInstitution"
 
-    return render(request, 'Registration/simpleForm.html', {'form': formInstitution})
+    return render(request, 'Registration/simpleForm.html', {'postURL': postURL, 'form': form})
