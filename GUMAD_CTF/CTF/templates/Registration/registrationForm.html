@@ -6,8 +6,23 @@
     {% csrf_token %}
 
     <h5>Team Registration</h5>
-    <p>Note: If you don't see your team, you may add it <a href="/Registration/RegisterInstitution">here.</a></p>
+    <p>Note: If you don't see your institution, you may add it <a href="/Registration/RegisterInstitution">here.</a></p>
+
+    <h5>Team Info</h5>
     {{ formTeam }}
+    <!-- {{ memberForm | linebreaks}} -->
+    {% for form in memberForm %}
+        <h5>Team Member {{ forloop.counter }}</h5>
+        {{ form | linebreaks }}
+
+        {% if forloop.counter == 3 %}
+            <br><p>You may have up to five team members if at least one is a freshman or sophomore. Please delete forms you do not need.</p>
+        {% endif %}
+    {% endfor %}
+
+    {% for form in extraForms %}
+        {{ form | linebreaks }}
+    {% endfor %}
     <input type="submit" value="Register">
 </form>
 

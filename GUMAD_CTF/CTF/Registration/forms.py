@@ -12,9 +12,10 @@ class InstitutionForm(forms.ModelForm):
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ['name','institution','name']
+        fields = ['name','institution','league']
 
 class ParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = ['firstname','lastname','standing','team']
+        exclude = ('team',)
