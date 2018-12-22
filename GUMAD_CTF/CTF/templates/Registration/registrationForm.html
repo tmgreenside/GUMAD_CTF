@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="/Registration/Register" method="post">
+<form method="post" id="SubmitRegistrationForm">
     {% csrf_token %}
 
     <h5>Team Registration</h5>
@@ -11,12 +11,27 @@
     <h5>Team Info</h5>
     {{ formTeam }}
     <!-- {{ memberForm | linebreaks}} -->
-    {% for form in memberForm %}
+    {% for form in members %}
         <h5>Team Member {{ forloop.counter }}</h5>
-        {{ form | linebreaks }}
+        <label for="firstname_{{ forloop.counter }}">First name:</label>
+        <input type="text" name="firstname_{{ forloop.counter }}" id="firstname_{{ forloop.counter }}">
+
+        <label for="lastname_{{ forloop.counter }}">Last name:</label>
+        <input type="text" name="lastname_{{ forloop.counter }}" id="lastname_{{ forloop.counter }}">
+
+        <label for="email_{{ forloop.counter }}">Email:</label>
+        <input type="text" name="email_{{ forloop.counter }}" id="email_{{ forloop.counter }}">
+
+        <label for="standing_{{ forloop.counter }}">Class Standing:</label>
+        <select name="standing_{{ forloop.counter }}" id="standing_{{ forloop.counter }}">
+            <option value="Freshman">Freshman</option>
+            <option value="Sophomre">Sophomore</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+        </select>
 
         {% if forloop.counter == 3 %}
-            <br><p>You may have up to five team members if at least one is a freshman or sophomore. Please delete forms you do not need.</p>
+            <br><br><p>You may have up to five team members if at least one is a freshman or sophomore. Otherwise, teams are limited to three members.</p>
         {% endif %}
     {% endfor %}
 
@@ -25,5 +40,16 @@
     {% endfor %}
     <input type="submit" value="Register">
 </form>
+
+<!-- <script>
+
+    $(document).ready(function() {
+        $("#SubmitRegistrationForm").submit(function(e) {
+            e.preventDefault();
+
+        });
+    });
+
+</script> -->
 
 {% endblock %}

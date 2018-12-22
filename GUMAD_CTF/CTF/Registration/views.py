@@ -13,28 +13,15 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def registration(request):
+
+    # look at redoing using a raw form
     if request.method == 'POST':
         formTeam = TeamForm(request.POST)
-        requiredParticipantForms = formset_factory(ParticipantForm)
-        extraParticipantForms = formset_factory(ParticipantForm)
 
-        requiredSetData = {
-            'form-TOTAL_FORMS':'3',
-            'form-INITIAL_FORMS': '0',
-            'form-MAX_NUM_FORMS': ''
-        }
-        requiredSet = requiredParticipantForms(request.POST, requiredSetData)
-        # extraSet = extraParticipantForms(request.POST)
-        # check whether it's valid:
         if not formTeam.is_valid():
             message = "Invalid entry. Please try again."
             context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
             return render(request, 'Registration/registrationForm.html', context)
-        # for form in participantForms:
-        #     if not form.is_valid():
-        #         message = "Invalid entry. Please try again."
-        #         context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
-        #         return render(request, 'Registration/registrationForm.html', context)
 
         # save team in database
         teamName = formTeam.cleaned_data['name']
@@ -43,24 +30,15 @@ def registration(request):
         team = models.Team(name=teamName, institution=teamInsitition, league=teamLeague)
         team.save()
 
-        # save each participant in database
-        if requiredSet.is_valid():
-            for form in requiredSet:
-                firstname = form.cleaned_data['firstname']
-                lastname = form.cleaned_data['lastname']
-                standing = form.cleaned_data['standing']
-                participantTeam = models.Team.object.get(name=teamName)
-                newParticipant = models.Participant(firstname=firstname,lastname=lastname,standing=standing,team=participantTeam)
-                newParticipant.save()
+        participants = []
+        for i in range(5):
+            firstname = request.POST.get('firstname_' + str(i+1))
+            lastname = request.POST.get('lastname_' + str(i+1))
+            email = request.POST.get('email_' + str(i+1))
+            standing = request.POST.get('standing_' + str(i+1))
 
-        # if extraSet.is_valid():
-        #     for form in extraSet:
-        #         firstname = form.cleaned_data['firstname']
-        #         lastname = form.cleaned_data['lastname']
-        #         standing = form.cleaned_data['standing']
-        #         participantTeam = models.Team.object.get(name=teamName)
-        #         newParticipant = models.Participant(firstname=firstname,lastname=lastname,standing=standing,team=participantTeam)
-        #         newParticipant.save()
+            participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
+            participant.save()
 
         return HttpResponseRedirect('/Registration')
 
@@ -68,10 +46,9 @@ def registration(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         formTeam = TeamForm()
-        requiredParticipantForms = formset_factory(ParticipantForm, extra=3)
-        extraParticipantForms = formset_factory(ParticipantForm, extra=2, can_delete=True)
 
-    context = {'formTeam': formTeam, 'memberForm': requiredParticipantForms, 'extraForms':extraParticipantForms, 'message': ""}
+    # TODO: add extra forms
+    context = {'formTeam': formTeam, 'members': range(5), 'message': ""}
     return render(request, 'Registration/registrationForm.html', context)
 
 """
