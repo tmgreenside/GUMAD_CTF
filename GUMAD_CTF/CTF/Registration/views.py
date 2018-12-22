@@ -30,7 +30,14 @@ def registration(request):
         team = models.Team(name=teamName, institution=teamInsitition, league=teamLeague)
         team.save()
 
-        participants = []
+        for i in range(3):
+            items = [request.POST.get('firstname_' + str(i+1)),request.POST.get('lastname_' + str(i+1)),request.POST.get('email_' + str(i+1))]
+            for item in items:
+                if item == "":
+                    message = "Please make sure all required fields are completely filled out."
+                    context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+                    return render(request, 'Registration/registrationForm.html', context)
+
         for i in range(5):
             firstname = request.POST.get('firstname_' + str(i+1))
             lastname = request.POST.get('lastname_' + str(i+1))
