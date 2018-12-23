@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<p style="color: red;">{{ message }}</p>
 <form method="post" id="SubmitRegistrationForm">
     {% csrf_token %}
 
@@ -10,7 +11,12 @@
 
     <h5>Team Info</h5>
     {{ formTeam }}
-    <!-- {{ memberForm | linebreaks}} -->
+    <br><br>
+    <label for="passentry1">Enter a password:</label>
+    <input type="password" id="passentry1" name="passentry1" required><br>
+
+    <label for="passentry2">Re-enter password:</label>
+    <input type="password" id="passentry2" name="passentry2" required><br>
     {% for form in members %}
         <h5>Team Member {{ forloop.counter }}</h5>
         {% if forloop.counter <= 3 %}
@@ -49,18 +55,10 @@
     {% for form in extraForms %}
         {{ form | linebreaks }}
     {% endfor %}
-    <input type="submit" value="Register">
+
+    <br><br>
+    <input type="submit" value="Register" >
 </form>
 
-<!-- <script>
-
-    $(document).ready(function() {
-        $("#SubmitRegistrationForm").submit(function(e) {
-            e.preventDefault();
-
-        });
-    });
-
-</script> -->
 
 {% endblock %}

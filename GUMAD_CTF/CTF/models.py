@@ -38,3 +38,7 @@ class Participant(models.Model):
 
     def __str__(self):
         return self.firstname + " " + self.lastname
+
+class TeamLogin(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    models.CharField(max_length=50)

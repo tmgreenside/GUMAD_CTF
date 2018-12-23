@@ -23,6 +23,14 @@ def registration(request):
             context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
             return render(request, 'Registration/registrationForm.html', context)
 
+        passEntry1 = request.POST.get('passentry1')
+        passEntry2 = request.POST.get('passentry2')
+
+        if passEntry1 != passEntry2:
+            message = "Passwords must match."
+            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+            return render(request, 'Registration/registrationForm.html', context)
+
         # save team in database
         teamName = formTeam.cleaned_data['name']
         teamInsitition = formTeam.cleaned_data['institution']
@@ -47,7 +55,7 @@ def registration(request):
             participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
             participant.save()
 
-        return HttpResponseRedirect('/Registration')
+        return HttpResponseRedirect('/Registration/ThankYou')
 
 
     # if a GET (or any other method) we'll create a blank form
@@ -82,3 +90,9 @@ def registerInstitution(request):
         postURL = "/Registration/RegisterInstitution"
 
     return render(request, 'Registration/simpleForm.html', {'postURL': postURL, 'form': form})
+
+"""
+This view displays a page saying "Thank you for registering"
+"""
+def thanksForRegistering(request):
+    return render(request, 'Registration/thanksForRegistering.html')
