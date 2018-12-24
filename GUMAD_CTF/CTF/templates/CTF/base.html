@@ -1,18 +1,39 @@
 <!DOCTYPE>
 <head>
-  <title>CTF | GU MAD</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>CTF | GU MAD</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        #main_content {
+            position: absolute;
+            background-color: white;
+            max-width: 900px;
+            margin-left: 160px;
+            padding: 10px
+        }
+
+        #side_bar {
+            position: absolute;
+            height: 100%;
+            width: 160px;
+            padding-top: 20px;
+            padding-left: 20px
+        }
+    </style>
 </head>
 <body style="background-color:gray">
     {% load static %}
     <div id="top_bar" style="background-color:black; height:100px">
-        <img src="{% static 'CTF/MAD_logo.png' %}" height="100px"/>
+        <a href="/"><img src="{% static 'CTF/MAD_logo.png' %}" height="100px"/></a>
     </div>
-    <div id="side_bar" style="width:100px;">
-    </div>
-    <div style="width=400px; background-color:white; padding:10px">
-    {% block content %}
+    <div id="main_body">
+        <div id="side_bar">
+            <a href="/Registration/Register">Register</a><br>
+            <a href="/Registration">Rules</a>
+        </div>
+        <div id="main_content">
+        {% block content %}
 
-    {% endblock %}
+        {% endblock %}
+        </div>
     </div>
 </body>
