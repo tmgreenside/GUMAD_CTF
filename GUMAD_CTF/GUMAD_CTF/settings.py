@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'GUMAD_CTF',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'tempcbsql',
+        'PASSWORD': 'qwerty',
     }
 }
 
