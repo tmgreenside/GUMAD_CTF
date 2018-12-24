@@ -31,25 +31,55 @@
         <li>No DOS attacks on machines.</li>
         <li>Do not attack the scoreboard site.</li>
         <li>Hints are allowed by the people around. However, points will be taken off for this. Want the opportunity for people to have fun and solve challenges on their own first!</li>
+        <li>None of the challenges are BRUTE FORCE. So, do not try to brute force a flag.</li>
 </ul>
-<h3>Attack/Defense:</h3>
-<ul>
-    <li>This will consist of defending your own applications, while trying to exploit others.</li>
-    <li>Teams need to keep your service up and running! Points are taken away for down time.</li>
-    <li>Flags will rotate on 'ticks', where flags can be reclaimed.</li>
-    <li>4 challenges total</li>
-    <li>Defensively, if a malicious payload is seen, then report this to the officials for extra points, with a cap of 4 on this.</li>
-    <li>Harden the system, not about hardening the flag. If your team is caught hardening the flag, you will be hit with major deduction.</li>
 
+<h3>Attack/Defense:</h3>
+<p>Each team will be assigned a server with multiple <b>services</b> designed spefifically insecure for the contest. The explitation of these services can lead hackers to do malicious things on the server. The goal is to patch(fix) your own services while exploiting the other teams applications. Teams will have complete access to the complete source code, as well as documentation on the service. Furthermore, startup, shutdown and reset scripts will be provided. At the start of the contest, every team will have the exact same services, with the same vulnerabilites present. </p>
+
+<p>
+    These services will be released once per hour at the beginning of the second hour of the contest. 
+</p>
+
+<h5>Scoring</h5>
+There are three main ways of scoring: 
+<ul>
+    <li>
+        Submitting stolen flags to the scoreboard website. 
+    </li>
+    <li>
+        Keeping services online and functional.
+    </li>
+    <li>
+        Submitting 'blue team' reports, or defensive reports. If you believe you have a malicious request being made on your application, then you can submit it for points (limit 2 per service). 
+    </li>
 </ul>
+
+<p>
+    All of the flags will be in the form flag flag{15_alphabetic_characters}. Also, all of the flags will be in the <b>'/etc/service_A'</b>,<b>'/etc/service_B'</b>, <b>'/etc/service_C'</b>,<b>'/etc/service_D'</b> directories depending on the service. Furthermore, if an exploit is found that does not give off a flag (such as getting admin on a website) then the flag may appear.
+</p>
+
+<h5>Rounds</h5>
+<p>
+    The contest will have 6 one-hour rounds, with one flag associated with each service. At the beginning of each round all services will be issued new flags. So, this will give teams the opportunity to exploit the service once again. 
+</p>
+
 
 <h3>Wargame and Jeopardy</h3>
+<p>
+    In jeopardy there are several categories where you pick a question, then attempt to answer it. The same goes with jeopardy CTF, with the only difference being that the questions are  challenges of some kind, where the answer is the flag. The current categories are Software(Web/Native),  Log Analysis/Stegangraphy, Cryptography, Social Engineering and Miscellaneous. 
+</p>
+
 <h5>Scoring</h5>
 <ul>
     <li>Solving a wargame will give x number of points, depending on the difficulty and effort needed
         to solve the challenge.</li>
-    <li>For the wargames, sending in write ups of mitigation reports will be extra points, if correct.</li>
-    <li>A few of the wargames will be very hard to automate. So, people (known as judges) will manually have to look at them. This includes the XSS challenge, "I'm in" moment mitgiations and more.</li>
+    <li>
+        A few of the wargames will be very hard to automate. So, people (known as judges) will manually have to look at them. This includes the XSS challenge, "I'm in" moment mitgiations and more.
+    </li>
+    <li>
+        To recieve the points, go to the challenge turn-in and submit the flag. 
+    </li>
 
 </ul>
 
