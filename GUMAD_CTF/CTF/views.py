@@ -7,3 +7,6 @@ def index(request):
     template = loader.get_template('CTF/index.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+def schedule(request):
+    return render(request, 'CTF/schedule.html')
