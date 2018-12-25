@@ -41,4 +41,4 @@ class Participant(models.Model):
 
 class TeamLogin(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    models.CharField(max_length=50)
+    password = models.CharField(max_length=50)

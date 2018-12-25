@@ -13,6 +13,7 @@ class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ['name','institution','league']
+        labels = {'name':'Team Name', 'institution':'Institution', 'league':'League'}
 
 class ParticipantForm(forms.ModelForm):
     class Meta:

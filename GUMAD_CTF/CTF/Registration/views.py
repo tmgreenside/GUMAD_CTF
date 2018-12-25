@@ -46,14 +46,31 @@ def registration(request):
                     context = {'formTeam': formTeam, 'members': range(5), 'message': message}
                     return render(request, 'Registration/registrationForm.html', context)
 
+        hasUnderclassman = False
+        for i in range(5):
+            standing = request.POST.get('standing_' + str(i+1))
+            if standing in ["Sophomore","Freshman"]:
+                hasUnderclassman = True
+        if not hasUnderclassman:
+            if request.POST.get('firstname_' + str(4)).rstrip(" ") != "":
+                message = "You can only have more than three teammates if one of them is an underclassman."
+                context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+                return render(request, 'Registration/registrationForm.html', context)
+
+
         for i in range(5):
             firstname = request.POST.get('firstname_' + str(i+1))
             lastname = request.POST.get('lastname_' + str(i+1))
             email = request.POST.get('email_' + str(i+1))
-            standing = request.POST.get('standing_' + str(i+1))
+            if email.rstrip(" ") != "":
+                standing = request.POST.get('standing_' + str(i+1))
 
-            participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
-            participant.save()
+                participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
+                participant.save()
+
+        password = make_password(passEntry1)
+        teamLogin = models.TeamLogin(team=team, password=password)
+        teamLogin.save()
 
         return HttpResponseRedirect('/Registration/ThankYou')
 
