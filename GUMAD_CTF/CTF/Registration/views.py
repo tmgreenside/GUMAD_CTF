@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.forms import formset_factory
 
+from django.contrib.auth.hashers import make_password
+
 from .forms import *
 import CTF.models as models
 
@@ -30,6 +32,10 @@ def registration(request):
             message = "Passwords must match."
             context = {'formTeam': formTeam, 'members': range(5), 'message': message}
             return render(request, 'Registration/registrationForm.html', context)
+        elif len(passEntry1) < 8:
+            message = "Passwords must be at least ."
+            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+            return render(request, 'Registration/registrationForm.html', context)
 
         # save team in database
         teamName = formTeam.cleaned_data['name']
@@ -49,14 +55,14 @@ def registration(request):
         hasUnderclassman = False
         for i in range(5):
             standing = request.POST.get('standing_' + str(i+1))
-            if standing in ["Sophomore","Freshman"]:
+            print("\nStanding:", standing, "\n")
+            if standing == "Sophomore" or standing == "Freshman":
                 hasUnderclassman = True
-        if not hasUnderclassman:
-            if request.POST.get('firstname_' + str(4)).rstrip(" ") != "":
+        if hasUnderclassman == False:
+            if request.POST.get('email_' + str(4)).rstrip(" ") != "":
                 message = "You can only have more than three teammates if one of them is an underclassman."
                 context = {'formTeam': formTeam, 'members': range(5), 'message': message}
                 return render(request, 'Registration/registrationForm.html', context)
-
 
         for i in range(5):
             firstname = request.POST.get('firstname_' + str(i+1))
