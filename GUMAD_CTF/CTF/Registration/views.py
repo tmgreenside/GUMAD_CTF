@@ -18,68 +18,76 @@ def registration(request):
 
     # look at redoing using a raw form
     if request.method == 'POST':
-        formTeam = TeamForm(request.POST)
+        try:
+            # TODO: VALIDATE ALL DATA BEFORE SAVING TO DB
+            formTeam = TeamForm(request.POST)
 
-        if not formTeam.is_valid():
-            message = "Invalid entry. Please try again."
-            context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
-            return render(request, 'Registration/registrationForm.html', context)
+            if not formTeam.is_valid():
+                message = "Invalid entry. Please try again."
+                context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
+                return render(request, 'Registration/registrationForm.html', context)
 
-        passEntry1 = request.POST.get('passentry1')
-        passEntry2 = request.POST.get('passentry2')
+            passEntry1 = request.POST.get('passentry1')
+            passEntry2 = request.POST.get('passentry2')
 
-        if passEntry1 != passEntry2:
-            message = "Passwords must match."
-            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
-            return render(request, 'Registration/registrationForm.html', context)
-        elif len(passEntry1) < 8:
-            message = "Passwords must be at least ."
-            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
-            return render(request, 'Registration/registrationForm.html', context)
-
-        # save team in database
-        teamName = formTeam.cleaned_data['name']
-        teamInsitition = formTeam.cleaned_data['institution']
-        teamLeague = formTeam.cleaned_data['league']
-        team = models.Team(name=teamName, institution=teamInsitition, league=teamLeague)
-        team.save()
-
-        for i in range(3):
-            items = [request.POST.get('firstname_' + str(i+1)),request.POST.get('lastname_' + str(i+1)),request.POST.get('email_' + str(i+1))]
-            for item in items:
-                if item == "":
-                    message = "Please make sure all required fields are completely filled out."
-                    context = {'formTeam': formTeam, 'members': range(5), 'message': message}
-                    return render(request, 'Registration/registrationForm.html', context)
-
-        hasUnderclassman = False
-        for i in range(5):
-            standing = request.POST.get('standing_' + str(i+1))
-            print("\nStanding:", standing, "\n")
-            if standing == "Sophomore" or standing == "Freshman":
-                hasUnderclassman = True
-        if hasUnderclassman == False:
-            if request.POST.get('email_' + str(4)).rstrip(" ") != "":
-                message = "You can only have more than three teammates if one of them is an underclassman."
+            if passEntry1 != passEntry2:
+                message = "Passwords must match."
+                context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+                return render(request, 'Registration/registrationForm.html', context)
+            elif len(passEntry1) < 8:
+                message = "Passwords must be at least ."
                 context = {'formTeam': formTeam, 'members': range(5), 'message': message}
                 return render(request, 'Registration/registrationForm.html', context)
 
-        for i in range(5):
-            firstname = request.POST.get('firstname_' + str(i+1))
-            lastname = request.POST.get('lastname_' + str(i+1))
-            email = request.POST.get('email_' + str(i+1))
-            if email.rstrip(" ") != "":
-                standing = request.POST.get('standing_' + str(i+1))
+            # save team in database
+            teamName = formTeam.cleaned_data['name']
+            teamInsitition = formTeam.cleaned_data['institution']
+            teamLeague = formTeam.cleaned_data['league']
+            team = models.Team(name=teamName, institution=teamInsitition, league=teamLeague)
 
-                participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
+            for i in range(2):
+                items = [request.POST.get('firstname_' + str(i+1)),request.POST.get('lastname_' + str(i+1)),request.POST.get('email_' + str(i+1))]
+                for item in items:
+                    if item == "":
+                        message = "Please make sure all required fields are completely filled out."
+                        context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+                        return render(request, 'Registration/registrationForm.html', context)
+
+            hasUnderclassman = False
+            for i in range(5):
+                standing = request.POST.get('standing_' + str(i+1))
+                print("\nStanding:", standing, "\n")
+                if standing == "Sophomore" or standing == "Freshman":
+                    hasUnderclassman = True
+            if hasUnderclassman == False:
+                if request.POST.get('email_' + str(4)).rstrip(" ") != "":
+                    message = "You can only have more than three teammates if one of them is an underclassman."
+                    context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+                    return render(request, 'Registration/registrationForm.html', context)
+
+            participants = []
+            for i in range(5):
+                firstname = request.POST.get('firstname_' + str(i+1))
+                lastname = request.POST.get('lastname_' + str(i+1))
+                email = request.POST.get('email_' + str(i+1))
+                if email.rstrip(" ") != "":
+                    standing = request.POST.get('standing_' + str(i+1))
+                    participant = models.Participant(firstname=firstname,lastname=lastname,email=email,standing=standing,team=team)
+                    participants.append(participant)
+
+            password = make_password(passEntry1)
+            teamLogin = models.TeamLogin(team=team, password=password)
+
+            team.save()
+            teamLogin.save()
+            for participant in participants:
                 participant.save()
 
-        password = make_password(passEntry1)
-        teamLogin = models.TeamLogin(team=team, password=password)
-        teamLogin.save()
-
-        return HttpResponseRedirect('/Registration/ThankYou')
-
+            return HttpResponseRedirect('/Registration/ThankYou')
+        except:
+            message = "An error occurred. Please try again."
+            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
+            return render(request, 'Registration/registrationForm.html', context)
 
     # if a GET (or any other method) we'll create a blank form
     else:

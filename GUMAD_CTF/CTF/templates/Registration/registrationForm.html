@@ -18,8 +18,13 @@
     <label for="passentry2">Re-enter password:</label>
     <input type="password" id="passentry2" name="passentry2" required><br>
     {% for form in members %}
+        {% if forloop.counter > 1%}
+            <div id="participant_{{ forloop.counter }}" hidden>
+        {% else %}
+            <div id="participant_{{ forloop.counter }}">
+        {% endif %}
         <h5>Team Member {{ forloop.counter }}</h5>
-        {% if forloop.counter <= 3 %}
+        {% if forloop.counter == 1 %}
             <label for="firstname_{{ forloop.counter }}">First name:</label>
             <input type="text" name="firstname_{{ forloop.counter }}" id="firstname_{{ forloop.counter }}" required>
 
@@ -41,24 +46,85 @@
 
         <label for="standing_{{ forloop.counter }}">Class Standing:</label>
         <select name="standing_{{ forloop.counter }}" id="standing_{{ forloop.counter }}">
+            <option selected disabled>Select</option>
             <option value="Freshman">Freshman</option>
             <option value="Sophomore">Sophomore</option>
             <option value="Junior">Junior</option>
-            <option value="Senior" selected>Senior</option>
+            <option value="Senior">Senior</option>
         </select>
+        </div>
 
         {% if forloop.counter == 3 %}
             <br><br><p>You may have up to five team members if at least one is a freshman or sophomore. Otherwise, teams are limited to three members.</p>
         {% endif %}
     {% endfor %}
 
-    {% for form in extraForms %}
-        {{ form | linebreaks }}
-    {% endfor %}
+    <input type="number" value="0" hidden>
+
+    <button type="button" onclick="addParticipant();">Add Participant</button>
+    <button id="buttonRemoveParticipant" type="button" onclick="removeParticipant();" disabled>Remove Participant</button>
 
     <br><br>
     <input type="submit" value="Register" >
 </form>
 
+<script>
+
+    var visible = 1;
+
+    function addParticipant() {
+        if (visible < 5) {
+            visible++;
+            $("#participant_" + visible.toString()).show();
+            $("#standing_" + visible.toString()).prop('required',true);
+            $("#email_" + visible.toString()).prop('required',true);
+            $("#firstname_" + visible.toString()).prop('required',true);
+            $("#lastname_" + visible.toString()).prop('required',true);
+
+            $("#buttonRemoveParticipant").prop('disabled', false);
+        }
+    }
+
+    function removeParticipant() {
+        if (visible > 1) {
+            $("#participant_" + visible.toString()).hide();
+            $("#standing_" + visible.toString()).prop('required',false);
+            $("#email_" + visible.toString()).prop('required',false);
+            $("#firstname_" + visible.toString()).prop('required',false);
+            $("#lastname_" + visible.toString()).prop('required',false);
+            visible -= 1;
+        }
+
+        if (visible === 1) {
+            $("#buttonRemoveParticipant").prop('disabled', true);
+        }
+    }
+
+    $(document).ready(function() {
+        $('#SubmitRegistrationForm').submit(function(event) {
+            if ($('#passentry1').val() !== $('#passentry2')) {
+                alert("Passwords do not match. Please try again.");
+                event.preventDefault();
+            }
+            else if ($('#passentry1').val().trim().length < 8) {
+                alert("Passwords must have a length of at least 8 characters. Please try again.");
+                event.preventDefault();
+            }
+            else if (visible > 3) {
+                var hasUnderclassman = false;
+                for (var i = 1; i <= visible; i++) {
+                    var field = $("standing_" + i.toString()).val();
+                    if (field === "Sophomore" || field === "Freshman") {
+                        hasUnderclassman = true;
+                    }
+                }
+                if (hasUnderclassman === false) {
+                    alert("At least one member must be a freshman or a sophomore if your team has more than three members.");
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+</script>
 
 {% endblock %}
