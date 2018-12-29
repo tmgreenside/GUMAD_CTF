@@ -114,7 +114,7 @@
 				'output': 'json',
 			},
             success: function(data) {
-                
+
             }
         });
     }
@@ -122,12 +122,12 @@
     var progressTimeout = null;
 
     $(document).ready(function() {
-        $('#team_name').on("keydown paste", function() {
-            if (progressTimeout) {
-				clearTimeout(progressTimeout);
-			}
-			progressTimeout = setTimeout(checkTeamName, 1000);
-        });
+        // $('#team_name').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkTeamName, 1000);
+        // });
 
         $('#SubmitRegistrationForm').submit(function(event) {
             if ($('#passentry1').val() !== $('#passentry2').val()) {
