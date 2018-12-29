@@ -22,7 +22,7 @@ class Institution(models.Model):
         return self.name
 
 class Team(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique=True)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     league = models.CharField(max_length=20, choices=LEAGUES, blank=True, null=True)
 
@@ -41,4 +41,4 @@ class Participant(models.Model):
 
 class TeamLogin(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=255)

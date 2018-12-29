@@ -92,6 +92,10 @@
             $("#email_" + visible.toString()).prop('required',false);
             $("#firstname_" + visible.toString()).prop('required',false);
             $("#lastname_" + visible.toString()).prop('required',false);
+            $("#standing_" + visible.toString()).val("Select");
+            $("#email_" + visible.toString()).val("");
+            $("#firstname_" + visible.toString()).val("");
+            $("#lastname_" + visible.toString()).val("");
             visible -= 1;
         }
 
@@ -100,9 +104,33 @@
         }
     }
 
+    function checkTeamName() {
+        name = $('#team_name').val();
+        $.ajax({
+            type: "POST",
+            url: "/Registration/CheckTeamName",
+            data: {
+				'team_name': name,
+				'output': 'json',
+			},
+            success: function(data) {
+                
+            }
+        });
+    }
+
+    var progressTimeout = null;
+
     $(document).ready(function() {
+        $('#team_name').on("keydown paste", function() {
+            if (progressTimeout) {
+				clearTimeout(progressTimeout);
+			}
+			progressTimeout = setTimeout(checkTeamName, 1000);
+        });
+
         $('#SubmitRegistrationForm').submit(function(event) {
-            if ($('#passentry1').val() !== $('#passentry2')) {
+            if ($('#passentry1').val() !== $('#passentry2').val()) {
                 alert("Passwords do not match. Please try again.");
                 event.preventDefault();
             }
@@ -121,6 +149,22 @@
                 if (hasUnderclassman === false) {
                     alert("At least one member must be a freshman or a sophomore if your team has more than three members.");
                     event.preventDefault();
+                }
+            }
+            else {
+                var participantFields = ["firstname_", "lastname_","email_","standing_"];
+                for (var i = 1; i <= 5; i++) {
+                    partial = false;
+                    for (var field in participantFields) {
+                        if ($("#" + field + i.toString()).val() !== "") {
+                            partial = true;
+                        }
+                        else if ($("#" + field + i.toString()).val() === "" && partial === true) {
+                            alert("Please complete all form fields.");
+                            event.preventDefault();
+                            return;
+                        }
+                    }
                 }
             }
         });
