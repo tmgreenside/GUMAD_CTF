@@ -11,6 +11,10 @@
 
     <h5>Team Info</h5>
     {{ formTeam }}
+
+    <div id="teamNameAvailableNotification">
+    </div>
+
     <br><br>
     <label for="passentry1">Enter a password:</label>
     <input type="password" id="passentry1" name="passentry1" required><br>
@@ -106,6 +110,10 @@
 
     function checkTeamName() {
         name = $('#team_name').val();
+        if (name === "") {
+            $('#teamNameAvailableNotification').empty();
+            return;
+        }
         $.ajax({
             type: "POST",
             url: "/Registration/CheckTeamName",
@@ -114,20 +122,23 @@
 				'output': 'json',
 			},
             success: function(data) {
-
-            }
+                $('#teamNameAvailableNotification').html(data);
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+				alert("Search Failed");
+			}
         });
     }
 
     var progressTimeout = null;
 
     $(document).ready(function() {
-        // $('#team_name').on("keydown paste", function() {
-        //     if (progressTimeout) {
-		// 		clearTimeout(progressTimeout);
-		// 	}
-		// 	progressTimeout = setTimeout(checkTeamName, 1000);
-        // });
+        $('#team_name').on("keydown paste", function() {
+            if (progressTimeout) {
+				clearTimeout(progressTimeout);
+			}
+			progressTimeout = setTimeout(checkTeamName, 750);
+        });
 
         $('#SubmitRegistrationForm').submit(function(event) {
             if ($('#passentry1').val() !== $('#passentry2').val()) {

@@ -4,6 +4,7 @@ from django.template import loader
 from django.forms import formset_factory
 
 from django.contrib.auth.hashers import make_password
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import *
 import CTF.models as models
@@ -135,11 +136,17 @@ def registerInstitution(request):
 """
 This handles an AJAX request to ensure team names are unique.
 """
+@csrf_exempt
 def checkTeamName(request):
-    if request.method == 'POST':
-        name = request.POST.get('team_name')
-        teams = models.Team.objects.values('name').order_by('name').annotate(the_count=Count('name'))
-        # LEFT OFF HERE
+    teamName = request.POST.get('team_name')
+    teams = models.Team.objects.filter(name=teamName).count()
+    if teams > 0:
+        taken = True
+    else:
+        taken = False
+    return render(request, 'Registration/teamNameAvailable.html', {'taken':taken})
+
+
 
 """
 This view displays a page saying "Thank you for registering"
