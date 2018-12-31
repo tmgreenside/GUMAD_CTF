@@ -9,7 +9,7 @@ for s in states:
     STATE_CHOICES.append((s,s))
 
 CLASS_STANDINGS = [("Freshman","Freshman"), ("Sophomore","Sophomore"), ("Junior","Junior"), ("Senior","Senior")]
-LEAGUES = [("Buffer Overflow","Buffer Overflow"), ("Ret Lib C","Ret Lib C")]
+LEAGUES = [("Canary","Canary"), ("Swallow","Swallow")]
 
 # Create your models here.
 class Institution(models.Model):
