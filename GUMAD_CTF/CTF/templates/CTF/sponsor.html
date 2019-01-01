@@ -1,0 +1,29 @@
+{% extends 'CTF/base.html' %}
+
+{% block content %}
+
+<h1>Sponsor</h1>
+<p>
+    We would like to thank our sponsors for their dedication to this competition! Below are the listed supporters:
+</p>
+<a href="https://intrinium.com/" >Intrinium</a>, <a href="https://www.risklens.com/">Risk Lens </a>
+{% load static %}
+        <a href="https://www.communitysecuritycoalition.org/"><img src="{% static 'CTF/CSC-logo.jpg' %}" height="100px"/></a>
+
+<style>
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        min-width: 150px;
+    }
+
+</style>
+
+{% endblock %}

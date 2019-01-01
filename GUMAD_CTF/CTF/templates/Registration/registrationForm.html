@@ -6,11 +6,20 @@
 <form method="post" id="SubmitRegistrationForm">
     {% csrf_token %}
 
-    <h5>Team Registration</h5>
-    <p>Note: If you don't see your institution, you may add it <a href="/Registration/RegisterInstitution">here.</a></p>
-    <p>Note: There are two different leagues depending on your teams level of expertise, <b>Canary </b> and <b>Swallow</b>. The more experienced players should enrole in the Swallow league, while the people new to the field should sign up for Canary. There is more on the distiction between the two leagues on the rules section of the web site.</p>
-    <p>Finally, all teams with more than 3 members must have at least one freshman or sophomore.</p>
-    <h5>Team Info</h5>
+    <h3>Team Registration</h3>
+    <p>
+        Below is the registration form for the contest. If you and your team have issues, please email <i>mdulin2[at]zagmail[dot]gonzaga[dot]edu</i>. To send the email replace the [at] with an '@' and [dot] with a '.'. Good luck!
+    </p>
+    <p>
+        <b>Note:</b> If you don't see your institution, you may add it <a href="/Registration/RegisterInstitution">here.</a>
+    </p>
+    <p>
+        <b>Note:</b> There are two different leagues depending on your teams level of expertise, <b>Canary </b> and <b>Swallow</b>. The more experienced players should enrole in the Swallow league, while the people new to the field should sign up for Canary. There is more on the distiction between the two leagues on the rules section of the web site.
+    </p>
+    <p>
+        Look at the <a href = "/Registration">rules </a> to in general before registering.
+    </p>
+    <h3>Team Info</h3>
     {{ formTeam }}
 
     <div id="teamNameAvailableNotification">

@@ -10,3 +10,6 @@ def index(request):
 
 def schedule(request):
     return render(request, 'CTF/schedule.html')
+
+def sponsor(request):
+    return render(request, 'CTF/sponsor.html')
