@@ -47,6 +47,8 @@
             <label for="email_{{ forloop.counter }}">Email:</label>
             <input type="text" name="email_{{ forloop.counter }}" id="email_{{ forloop.counter }}">
         {% endif %}
+        <div id="email_{{ forloop.counter }}_Notification">
+        </div>
 
         <label for="standing_{{ forloop.counter }}">Class Standing:</label>
         <select name="standing_{{ forloop.counter }}" id="standing_{{ forloop.counter }}">
@@ -130,6 +132,28 @@
         });
     }
 
+    function checkEmail(emailField) {
+        var emailAddress = $(emailField).val();
+        if (emailAddress == "") {
+            return;
+        }
+        alert("Got here with " + emailField);
+        $.ajax({
+            type: "POST",
+            url: "/Registration/CheckEmail",
+            data: {
+                'address': emailAddress
+            },
+            success: function(data, emailField) {
+                $(emailField + "_Notification").html(data);
+                alert("Done");
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+				alert("Search Failed");
+			}
+        });
+    }
+
     var progressTimeout = null;
 
     $(document).ready(function() {
@@ -139,6 +163,37 @@
 			}
 			progressTimeout = setTimeout(checkTeamName, 750);
         });
+
+        // $('#email_1').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkEmail, 750, '#email_1');
+        // });
+        // $('#email_2').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkEmail, 750, '#email_2');
+        // });
+        // $('#email_3').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkEmail, 750, '#email_3');
+        // });
+        // $('#email_4').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkEmail, 750, '#email_4');
+        // });
+        // $('#email_5').on("keydown paste", function() {
+        //     if (progressTimeout) {
+		// 		clearTimeout(progressTimeout);
+		// 	}
+		// 	progressTimeout = setTimeout(checkEmail, 750, '#email_5');
+        // });
 
         $('#SubmitRegistrationForm').submit(function(event) {
             if ($('#passentry1').val() !== $('#passentry2').val()) {

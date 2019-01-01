@@ -146,6 +146,19 @@ def checkTeamName(request):
         taken = False
     return render(request, 'Registration/teamNameAvailable.html', {'taken':taken})
 
+"""
+This handles an AJAX request to ensure email addresses are unique.
+"""
+@csrf_exempt
+def checkEmail(request):
+    address = request.POST.get('address')
+    count = models.Participant.objects.filter(email=address).count()
+    if count > 0:
+        taken = True
+    else:
+        taken = False
+    return render(request, 'Registration/emailAvailable.html', {'taken':taken})
+
 
 
 """
