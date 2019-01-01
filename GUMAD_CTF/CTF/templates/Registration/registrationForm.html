@@ -8,7 +8,8 @@
 
     <h5>Team Registration</h5>
     <p>Note: If you don't see your institution, you may add it <a href="/Registration/RegisterInstitution">here.</a></p>
-    <p>Note: There are two different leagues depending on your teams level of expertise, <b>Canary </b> and <b>Swallow</b>. The more experienced players should enrole in the Swallow league, while the people new to the field should sign up for Canary. There is more on the distiction between the two leagues on the rules section of the web site. 
+    <p>Note: There are two different leagues depending on your teams level of expertise, <b>Canary </b> and <b>Swallow</b>. The more experienced players should enrole in the Swallow league, while the people new to the field should sign up for Canary. There is more on the distiction between the two leagues on the rules section of the web site.</p>
+    <p>Finally, all teams with more than 3 members must have at least one freshman or sophomore.</p>
     <h5>Team Info</h5>
     {{ formTeam }}
 
@@ -204,19 +205,22 @@
                 alert("Passwords must have a length of at least 8 characters. Please try again.");
                 event.preventDefault();
             }
-            else if (visible > 3) {
-                var hasUnderclassman = false;
-                for (var i = 1; i <= visible; i++) {
-                    var field = $("standing_" + i.toString()).val();
-                    if (field === "Sophomore" || field === "Freshman") {
-                        hasUnderclassman = true;
-                    }
-                }
-                if (hasUnderclassman === false) {
-                    alert("At least one member must be a freshman or a sophomore if your team has more than three members.");
-                    event.preventDefault();
-                }
-            }
+            // else if (visible > 3) {
+            //     var hasUnderclassman = false;
+            //     for (var i = 1; i <= visible; i++) {
+            //         alert("standing_" + i.toString());
+            //         // var field = $("standing_" + i.toString()).find(":selected").val();
+            //         var field = $("standing_1").val();
+            //         alert(field);
+            //         if (field == "Sophomore" || field == "Freshman") {
+            //             hasUnderclassman = true;
+            //         }
+            //     }
+            //     if (hasUnderclassman == false) {
+            //         alert("At least one member must be a freshman or a sophomore if your team has more than three members.");
+            //         event.preventDefault();
+            //     }
+            // }
             else {
                 var participantFields = ["firstname_", "lastname_","email_","standing_"];
                 for (var i = 1; i <= 5; i++) {

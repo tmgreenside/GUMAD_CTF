@@ -20,15 +20,12 @@ If post, process a team registration form. If get, display the form. Input
 validation happens both client side and server side for redundancy.
 """
 def registration(request):
-
-    # look at redoing using a raw form
     if request.method == 'POST':
-        # TODO: VALIDATE ALL DATA BEFORE SAVING TO DB
         formTeam = TeamForm(request.POST)
 
         if not formTeam.is_valid():
             message = "Invalid entry. Please try again."
-            context = {'formTeam': formTeam, 'memberForm': participantForms, 'message': message}
+            context = {'formTeam': formTeam, 'members': range(5), 'message': message}
             return render(request, 'Registration/registrationForm.html', context)
 
         passEntry1 = request.POST.get('passentry1')
