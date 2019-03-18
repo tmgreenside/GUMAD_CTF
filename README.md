@@ -1,8 +1,5 @@
 # CTF at GU MAD
 
-This contest will be held between several teams affiliated with Gonzaga and
-others in Spokane, WA. The contest is meant to be held in February.
-
-### Specs:
-
-Members will log in with team credentials.
+This contest was held between several teams affiliated with Gonzaga, Whitworth, and
+several community colleges and highschools in Spokane, WA. The contest was held on
+February 9th, 2019.
